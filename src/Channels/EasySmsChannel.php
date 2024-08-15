@@ -33,7 +33,7 @@ class EasySmsChannel
         $message = $notification->toEasySms($notifiable);
 
         try {
-            app()->make('easysms')->send($to, $message);
+          return  app()->make('easysms')->send($to, $message);
         } catch (\Exception $exception) {
             throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
         }
