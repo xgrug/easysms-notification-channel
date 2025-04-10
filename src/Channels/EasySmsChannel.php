@@ -12,6 +12,7 @@ namespace Leonis\Notifications\EasySms\Channels;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 use Leonis\Notifications\EasySms\Exceptions\CouldNotSendNotification;
 
 class EasySmsChannel
@@ -33,7 +34,18 @@ class EasySmsChannel
         $message = $notification->toEasySms($notifiable);
 
         try {
-          return  app()->make('easysms')->send($to, $message);
+            $app = app()->make('easysms');
+            $result = $app->send($to, $message);
+            $config = $app->getConfig();
+
+            if ($config->get('debug')) {
+                Log::channel($config->get('gateways.errorlog.channel'))->debug('send message result', [
+                    'to' => $to,
+                    'message' => $message,
+                    'result' => $result,
+                ]);
+            }
+            return $result;
         } catch (\Exception $exception) {
             throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
         }

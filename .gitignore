@@ -1,3 +1,11 @@
 /vendor
 composer.lock
 .php_cs.cache
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/easysms-notification-channel.iml
+/.idea/git_toolbox_blame.xml
+/.idea/magento2plugin.xml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
